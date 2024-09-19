@@ -50,11 +50,11 @@ Partial Class Form1
         'Button3
         '
         Me.Button3.Font = New System.Drawing.Font("굴림", 28.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Button3.Location = New System.Drawing.Point(104, 51)
+        Me.Button3.Location = New System.Drawing.Point(104, 50)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(149, 80)
         Me.Button3.TabIndex = 2
-        Me.Button3.Text = "삭제"
+        Me.Button3.Text = "수정"
         Me.Button3.UseVisualStyleBackColor = True
         '
         'Form1
