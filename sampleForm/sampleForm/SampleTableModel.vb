@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports sampleForm
 
+'테이블에 옮길 데이터를 담습니다.
 Public Class SampleTableModel : Implements ITableModel
 
     Private _idx As Integer
@@ -41,6 +42,9 @@ Public Class SampleTableModel : Implements ITableModel
 
     End Sub
 
+    '기본 sql 라이브러리에는 쿼리 작성 시 @param라고 문자열에 포함하면 실제로 실행할 땐 특정 값과 매칭되도록 설정할 수 있습니다
+    '그러한 기능을 사용하기 위해서는 그 파라미터의 타입과 값이 설정하여야 합니다.
+    '컬럼명에 따라서 db column Type과 값을 저장한 인스턴스를 반환하는 함수입니다. 
     Public Function GetSqlParameter(columnName As String) As SqlParameter Implements ITableModel.GetSqlParameter
 
         Dim param As SqlParameter = Nothing
