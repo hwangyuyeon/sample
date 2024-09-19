@@ -5,7 +5,6 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 
-
     End Sub
 
     Sub InsertTest()
@@ -29,6 +28,7 @@ Public Class Form1
 
         Dim dbConn As IDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
 
+        '조회할 컬럼명
         Dim columns As String() = {"name", "score"}
 
         Dim result As DataTable = dbConn.SelectTable("sampleTable", columns)

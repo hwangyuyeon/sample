@@ -1,5 +1,6 @@
 ﻿Imports System.Data.SqlClient
 
+'테이블을 조회하고 수정하고 삭제할 때 필요한 정보를 가진 모델입니다.
 Public Interface ITableModel
 
 
