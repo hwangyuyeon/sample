@@ -54,7 +54,7 @@ Partial Class Form1
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(149, 80)
         Me.Button3.TabIndex = 2
-        Me.Button3.Text = "삭제"
+        Me.Button3.Text = "수"
         Me.Button3.UseVisualStyleBackColor = True
         '
         'Form1
