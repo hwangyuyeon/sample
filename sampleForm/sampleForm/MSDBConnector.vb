@@ -18,6 +18,58 @@ Public Class MSDBConnector : Implements IDBConnector
 
     End Sub
 
+    Public Function LoadTable() As DataSet Implements IDBConnector.LoadTable
+
+        Dim dataSet As New DataSet("HR")
+
+        Try
+            Using conn As SqlConnection = New SqlConnection(GetDBConnectCommand())
+
+                conn.Open()
+
+                Dim sqlAdapt = New SqlDataAdapter()
+
+                sqlAdapt.SelectCommand = New SqlCommand("select * from dbo.sampleTable", conn)
+
+                Dim cb As New SqlCommandBuilder(sqlAdapt)
+
+                sqlAdapt.Fill(dataSet, "Employee")
+
+            End Using
+
+        Catch ex As Exception
+
+            Throw ex
+
+        End Try
+
+        Return dataSet
+
+    End Function
+
+    Public Function AddData(ds As DataSet, sa As SqlDataAdapter, name As String, score As Integer) Implements IDBConnector.AddData
+
+        Try
+
+            Dim newRow As DataRow = ds.Tables("Employee").NewRow()
+
+            newRow("idx") = id
+            newRow("name") = name
+            newRow("score") = score
+
+            ds.Tables("Employee").Rows.Add(newRow)
+
+
+            sa.Update(ds, "Employee")
+
+        Catch ex As Exception
+
+            MessageBox.Show(ex.Message)
+            Console.WriteLine("!")
+        End Try
+
+    End Function
+
     '파라미터에 해당하는 컬럼명들과 테이블명으로 db에 조건없이 단순 조회하여 가져옵니다 
     Public Function SelectTable(tableName As String, columnNames As String()) As DataTable Implements IDBConnector.SelectTable
 
