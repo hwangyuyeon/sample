@@ -116,15 +116,49 @@ Public Class Form1
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
 
-        Try
+        Dim ds As New DataSet("HR")
+        Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
 
-            dataSet.Tables(0).Rows(cPos).Delete()
+        If MsgBox("정말로 삭제 하시겠습니까?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
 
-            DataGridView1.Refresh()
+            Try
+                Using conn As SqlConnection = New SqlConnection(dbConn.GetDBConnectCommand())
 
-        Catch ex As Exception
+                    conn.Open()
 
-        End Try
+                    Dim sqlAdapt = New SqlDataAdapter()
+
+                    sqlAdapt.SelectCommand = New SqlCommand("select * from dbo.sampleTable", conn)
+
+                    Dim cb As New SqlCommandBuilder(sqlAdapt)
+
+                    sqlAdapt.Fill(ds, "Employee")
+
+                    ds.Tables(0).Rows(cPos).Delete()
+                    sqlAdapt.Update(ds, "Employee")
+
+                    DataGridView1.Refresh()
+                    DataGridView1.DataSource = ds.Tables(0)
+
+                End Using
+
+            Catch ex As Exception
+
+                Throw ex
+
+            End Try
+
+        Else
+
+
+
+        End If
+
+
+
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
 
     End Sub
 End Class
