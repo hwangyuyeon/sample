@@ -70,7 +70,6 @@ Public Class Form1
         DataGridView1.Refresh()
 
         Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
-
         dataSet = dbConn.AddData(txtName.Text, txtScore.Text)
         DataGridView1.Refresh()
         DataGridView1.DataSource = dataSet.Tables(0)
