@@ -26,10 +26,8 @@ Partial Class Form1
         Me.Button2 = New System.Windows.Forms.Button()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.Button3 = New System.Windows.Forms.Button()
-        Me.txtIdx = New System.Windows.Forms.TextBox()
         Me.txtName = New System.Windows.Forms.TextBox()
         Me.txtScore = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Button4 = New System.Windows.Forms.Button()
@@ -80,42 +78,25 @@ Partial Class Form1
         Me.Button3.Text = "삭제"
         Me.Button3.UseVisualStyleBackColor = True
         '
-        'txtIdx
-        '
-        Me.txtIdx.Location = New System.Drawing.Point(583, 12)
-        Me.txtIdx.Name = "txtIdx"
-        Me.txtIdx.Size = New System.Drawing.Size(128, 21)
-        Me.txtIdx.TabIndex = 5
-        '
         'txtName
         '
-        Me.txtName.Location = New System.Drawing.Point(583, 40)
+        Me.txtName.Location = New System.Drawing.Point(583, 23)
         Me.txtName.Name = "txtName"
         Me.txtName.Size = New System.Drawing.Size(128, 21)
         Me.txtName.TabIndex = 6
         '
         'txtScore
         '
-        Me.txtScore.Location = New System.Drawing.Point(583, 70)
+        Me.txtScore.Location = New System.Drawing.Point(583, 53)
         Me.txtScore.Name = "txtScore"
         Me.txtScore.Size = New System.Drawing.Size(128, 21)
         Me.txtScore.TabIndex = 7
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("굴림", 14.0!)
-        Me.Label1.Location = New System.Drawing.Point(492, 12)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(85, 19)
-        Me.Label1.TabIndex = 8
-        Me.Label1.Text = "사원번호"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("굴림", 14.0!)
-        Me.Label2.Location = New System.Drawing.Point(492, 40)
+        Me.Label2.Location = New System.Drawing.Point(492, 23)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(47, 19)
         Me.Label2.TabIndex = 9
@@ -125,7 +106,7 @@ Partial Class Form1
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("굴림", 14.0!)
-        Me.Label3.Location = New System.Drawing.Point(492, 70)
+        Me.Label3.Location = New System.Drawing.Point(492, 53)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(47, 19)
         Me.Label3.TabIndex = 10
@@ -159,17 +140,15 @@ Partial Class Form1
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtScore)
         Me.Controls.Add(Me.txtName)
-        Me.Controls.Add(Me.txtIdx)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Margin = New System.Windows.Forms.Padding(2)
         Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.Text = "ㅊ"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -180,10 +159,8 @@ Partial Class Form1
     Friend WithEvents Button2 As Button
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents Button3 As Button
-    Friend WithEvents txtIdx As TextBox
     Friend WithEvents txtName As TextBox
     Friend WithEvents txtScore As TextBox
-    Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Public WithEvents Button4 As Button
