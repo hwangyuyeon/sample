@@ -8,6 +8,8 @@ Public Class MSDBConnector : Implements IDBConnector
     Private ip As String
     Private id As String
     Private pw As String
+    'Private dataSet As DataSet
+    'Private sqlAdapt As SqlDataAdapter
 
     Public Sub New(dbName As String, ip As String, id As String, pw As String)
 
@@ -20,7 +22,7 @@ Public Class MSDBConnector : Implements IDBConnector
 
     Public Function LoadTable() As DataSet Implements IDBConnector.LoadTable
 
-        Dim dataSet As New DataSet("HR")
+        Dim ds As New DataSet("HR")
 
         Try
             Using conn As SqlConnection = New SqlConnection(GetDBConnectCommand())
@@ -33,7 +35,7 @@ Public Class MSDBConnector : Implements IDBConnector
 
                 Dim cb As New SqlCommandBuilder(sqlAdapt)
 
-                sqlAdapt.Fill(dataSet, "Employee")
+                sqlAdapt.Fill(ds, "Employee")
 
             End Using
 
@@ -43,30 +45,45 @@ Public Class MSDBConnector : Implements IDBConnector
 
         End Try
 
-        Return dataSet
+        Return ds
 
     End Function
 
-    Public Function AddData(ds As DataSet, sa As SqlDataAdapter, name As String, score As Integer) Implements IDBConnector.AddData
+    Public Function AddData(name As String, score As Integer) As DataSet Implements IDBConnector.AddData
+
+        Dim ds As New DataSet("HR")
 
         Try
 
-            Dim newRow As DataRow = ds.Tables("Employee").NewRow()
+            Using conn As SqlConnection = New SqlConnection(GetDBConnectCommand())
 
-            newRow("idx") = id
-            newRow("name") = name
-            newRow("score") = score
+                conn.Open()
 
-            ds.Tables("Employee").Rows.Add(newRow)
+                Dim sqlAdapt = New SqlDataAdapter()
 
+                sqlAdapt.SelectCommand = New SqlCommand("select * from dbo.sampleTable", conn)
 
-            sa.Update(ds, "Employee")
+                Dim cb As New SqlCommandBuilder(sqlAdapt)
+
+                sqlAdapt.Fill(ds, "Employee")
+
+                Dim newRow As DataRow = ds.Tables("Employee").NewRow()
+
+                newRow("name") = name
+                newRow("score") = score
+
+                ds.Tables("Employee").Rows.Add(newRow)
+                sqlAdapt.Update(ds, "Employee")
+
+            End Using
 
         Catch ex As Exception
 
-            MessageBox.Show(ex.Message)
-            Console.WriteLine("!")
+            Throw ex
+
         End Try
+
+        Return ds
 
     End Function
 
