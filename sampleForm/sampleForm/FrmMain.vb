@@ -1,13 +1,12 @@
 ﻿Imports System.Data.SqlClient
 
-Public Class Form1
+Public Class FrmMain
 
     Private cPos As Integer
     Private dataSet As DataSet
-    'Private sqlAdapt As SqlDataAdapter
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        ComboSearch(cboName)
     End Sub
 
     'Sub InsertTest()
@@ -59,20 +58,29 @@ Public Class Form1
         Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
 
 
-        dataSet = dbConn.LoadTable()
-        DataGridView1.DataSource = dataSet.Tables(0)
+        dataSet = dbConn.LoadTable(dtpFrom, dtpTo, cboName)
+        Try
+            DataGridView1.DataSource = dataSet.Tables(0)
+        Catch ex As Exception
+
+        End Try
+
 
     End Sub
 
     Private Sub Button2_click(sender As Object, e As EventArgs) Handles Button2.Click
 
-        DataGridView1.DataSource = Nothing
-        DataGridView1.Refresh()
+        If MsgBox("등록 하시겠습니까?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
 
-        Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
-        dataSet = dbConn.AddData(txtName.Text, txtScore.Text)
-        DataGridView1.Refresh()
-        DataGridView1.DataSource = dataSet.Tables(0)
+            DataGridView1.DataSource = Nothing
+            DataGridView1.Refresh()
+
+            Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
+            dataSet = dbConn.AddData(txtName.Text, txtScore.Text)
+            DataGridView1.Refresh()
+            DataGridView1.DataSource = dataSet.Tables(0)
+
+        End If
 
     End Sub
 
@@ -135,7 +143,9 @@ Public Class Form1
                     sqlAdapt.Fill(ds, "Employee")
 
                     ds.Tables(0).Rows(cPos).Delete()
-                    sqlAdapt.Update(ds, "Employee")
+
+                    Dim iResult As Integer = sqlAdapt.Update(ds, "Employee")
+                    MessageBox.Show("삭제 되었습니다.")
 
                     DataGridView1.Refresh()
                     DataGridView1.DataSource = ds.Tables(0)
@@ -143,14 +153,10 @@ Public Class Form1
                 End Using
 
             Catch ex As Exception
-
-                Throw ex
-
+                If ds.HasChanges Then
+                    ds.RejectChanges()
+                End If
             End Try
-
-        Else
-
-
 
         End If
 
@@ -159,6 +165,75 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+
+        Dim ds As New DataSet("HR")
+        Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
+
+        If MsgBox("수정 하시겠습니까?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+
+            Try
+                Using conn As SqlConnection = New SqlConnection(dbConn.GetDBConnectCommand())
+
+                    Dim cRow As DataRow
+
+                    conn.Open()
+
+                    Dim sqlAdapt = New SqlDataAdapter()
+
+                    sqlAdapt.SelectCommand = New SqlCommand("select * from dbo.sampleTable", conn)
+
+                    Dim cb As New SqlCommandBuilder(sqlAdapt)
+
+                    cRow = dataSet.Tables("Employee").Rows(cPos)
+                    cRow("name") = txtName.Text
+                    cRow("score") = txtScore.Text
+
+                    Dim iResult As Integer = sqlAdapt.Update(dataSet, "Employee")
+                    MessageBox.Show("수정되었습니다.")
+
+                End Using
+
+            Catch ex As Exception
+                If ds.HasChanges Then
+                    ds.RejectChanges()
+                End If
+            End Try
+
+        End If
+
+    End Sub
+
+    Public Sub ComboSearch(ByVal c As ComboBox)
+
+        Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
+        Dim strQry As String = "Select name From dbo.sampleTable"
+        Try
+            Using conn As SqlConnection = New SqlConnection(dbConn.GetDBConnectCommand())
+
+                conn.Open()
+
+                Dim cmd As New SqlCommand(strQry, conn)
+                cmd.CommandType = CommandType.Text
+                Dim rs As SqlDataReader = cmd.ExecuteReader
+                c.Items.Clear()
+
+                c.Items.Add("전체")
+                While (rs.Read())
+                    c.Items.Add(rs(0))
+                End While
+                rs.Close()
+
+            End Using
+
+        Catch ex As Exception
+
+            Throw ex
+
+        End Try
+
+    End Sub
+
+    Private Sub cboName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboName.SelectedIndexChanged
 
     End Sub
 End Class

@@ -1,5 +1,4 @@
 ﻿Imports System.Data.SqlClient
-Imports sampleForm
 
 'MSSQL DB에 접속하고 쿼리를 실행합니다
 Public Class MSDBConnector : Implements IDBConnector
@@ -8,8 +7,6 @@ Public Class MSDBConnector : Implements IDBConnector
     Private ip As String
     Private id As String
     Private pw As String
-    'Private dataSet As DataSet
-    'Private sqlAdapt As SqlDataAdapter
 
     Public Sub New(dbName As String, ip As String, id As String, pw As String)
 
@@ -20,30 +17,43 @@ Public Class MSDBConnector : Implements IDBConnector
 
     End Sub
 
-    Public Function LoadTable() As DataSet Implements IDBConnector.LoadTable
+    Public Function LoadTable(dateFrom As DateTimePicker, dateTo As DateTimePicker, cbotxt As ComboBox) As DataSet Implements IDBConnector.LoadTable
 
         Dim ds As New DataSet("HR")
+        Dim sWhere As String = ""
+        Dim strQry As String = "select * from dbo.sampleTable where sample_date between '" & dateFrom.Text & "' and '" & dateTo.Text & "' "
 
-        Try
-            Using conn As SqlConnection = New SqlConnection(GetDBConnectCommand())
+        If cbotxt.Text = "선택하세요" Then
+            MessageBox.Show("조건을 선택하세요.")
+        Else
+            Try
+                If cbotxt.Text <> "전체" Then
+                    sWhere &= " and name='" & cbotxt.Text & "'"
+                End If
 
-                conn.Open()
+                strQry &= sWhere
+                MessageBox.Show(strQry)
+                Using conn As SqlConnection = New SqlConnection(GetDBConnectCommand())
 
-                Dim sqlAdapt = New SqlDataAdapter()
+                    conn.Open()
 
-                sqlAdapt.SelectCommand = New SqlCommand("select * from dbo.sampleTable", conn)
+                    Dim sqlAdapt = New SqlDataAdapter()
 
-                Dim cb As New SqlCommandBuilder(sqlAdapt)
+                    sqlAdapt.SelectCommand = New SqlCommand(strQry, conn)
 
-                sqlAdapt.Fill(ds, "Employee")
+                    Dim cb As New SqlCommandBuilder(sqlAdapt)
 
-            End Using
+                    sqlAdapt.Fill(ds, "Employee")
 
-        Catch ex As Exception
+                End Using
 
-            Throw ex
+            Catch ex As Exception
 
-        End Try
+                Throw ex
+
+            End Try
+        End If
+
 
         Return ds
 
@@ -71,6 +81,7 @@ Public Class MSDBConnector : Implements IDBConnector
 
                 newRow("name") = name
                 newRow("score") = score
+                newRow("sample_date") = DateTime.Now
 
                 ds.Tables("Employee").Rows.Add(newRow)
                 sqlAdapt.Update(ds, "Employee")
