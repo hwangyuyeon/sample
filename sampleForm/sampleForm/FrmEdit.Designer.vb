@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class FrmAdd
+Partial Class FrmEdit
     Inherits System.Windows.Forms.Form
 
     'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
@@ -37,8 +37,8 @@ Partial Class FrmAdd
         Me.Label5.Location = New System.Drawing.Point(12, 9)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(138, 24)
-        Me.Label5.TabIndex = 21
-        Me.Label5.Text = "◈점수 등록"
+        Me.Label5.TabIndex = 27
+        Me.Label5.Text = "◈점수 수정"
         '
         'Label3
         '
@@ -47,7 +47,7 @@ Partial Class FrmAdd
         Me.Label3.Location = New System.Drawing.Point(14, 80)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(47, 19)
-        Me.Label3.TabIndex = 20
+        Me.Label3.TabIndex = 26
         Me.Label3.Text = "점수"
         '
         'Label2
@@ -57,7 +57,7 @@ Partial Class FrmAdd
         Me.Label2.Location = New System.Drawing.Point(14, 50)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(47, 19)
-        Me.Label2.TabIndex = 19
+        Me.Label2.TabIndex = 25
         Me.Label2.Text = "이름"
         '
         'txtScore
@@ -65,14 +65,14 @@ Partial Class FrmAdd
         Me.txtScore.Location = New System.Drawing.Point(67, 78)
         Me.txtScore.Name = "txtScore"
         Me.txtScore.Size = New System.Drawing.Size(128, 21)
-        Me.txtScore.TabIndex = 18
+        Me.txtScore.TabIndex = 24
         '
         'txtName
         '
         Me.txtName.Location = New System.Drawing.Point(67, 50)
         Me.txtName.Name = "txtName"
         Me.txtName.Size = New System.Drawing.Size(128, 21)
-        Me.txtName.TabIndex = 17
+        Me.txtName.TabIndex = 23
         '
         'Button2
         '
@@ -81,11 +81,11 @@ Partial Class FrmAdd
         Me.Button2.Margin = New System.Windows.Forms.Padding(2)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(104, 53)
-        Me.Button2.TabIndex = 16
-        Me.Button2.Text = "등록"
+        Me.Button2.TabIndex = 22
+        Me.Button2.Text = "수정"
         Me.Button2.UseVisualStyleBackColor = True
         '
-        'FrmAdd
+        'FrmEdit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -96,8 +96,8 @@ Partial Class FrmAdd
         Me.Controls.Add(Me.txtScore)
         Me.Controls.Add(Me.txtName)
         Me.Controls.Add(Me.Button2)
-        Me.Name = "FrmAdd"
-        Me.Text = "점수 등록"
+        Me.Name = "FrmEdit"
+        Me.Text = "수정"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

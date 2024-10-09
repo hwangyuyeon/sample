@@ -73,6 +73,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmEdit.Designer.vb">
+      <DependentUpon>FrmEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FrmMain.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -108,6 +114,12 @@
     <Compile Include="StringUtil.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FrmEdit.resx">
+      <DependentUpon>FrmEdit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmAdd.resx">
+      <DependentUpon>FrmAdd.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.vb</DependentUpon>
     </EmbeddedResource>

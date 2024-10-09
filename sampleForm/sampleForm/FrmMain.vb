@@ -2,11 +2,24 @@
 
 Public Class FrmMain
 
-    Private cPos As Integer
-    Private dataSet As DataSet
+    Public cPos As Integer
+    Public dataSet As DataSet
+    Private r As FrmAdd
+    Private ed As FrmEdit
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Refresh()
+        DataGridView1.AllowUserToAddRows = False
+        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        DataGridView1.MultiSelect = False
+        DataGridView1.ReadOnly = True
+
         ComboSearch(cboName)
+        Button2.Enabled = False
+        Button3.Enabled = False
+        Button4.Enabled = False
     End Sub
 
     'Sub InsertTest()
@@ -50,10 +63,9 @@ Public Class FrmMain
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
-        DataGridView1.DataSource = Nothing
-        DataGridView1.Refresh()
 
-        'dataSet = New DataSet("HR")
+
+        dataSet = New DataSet("HR")
 
         Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
 
@@ -61,6 +73,16 @@ Public Class FrmMain
         dataSet = dbConn.LoadTable(dtpFrom, dtpTo, cboName)
         Try
             DataGridView1.DataSource = dataSet.Tables(0)
+            DataGridView1.Columns("idx").Visible = False
+            DataGridView1.Columns("name").HeaderText = "이름"
+            DataGridView1.Columns("score").HeaderText = "점수"
+            DataGridView1.Columns("sample_date").HeaderText = "등록 날짜"
+            DataGridView1.Columns("sample_date").Width = 180
+
+
+            Button3.Enabled = True
+            Button4.Enabled = True
+
         Catch ex As Exception
 
         End Try
@@ -70,54 +92,33 @@ Public Class FrmMain
 
     Private Sub Button2_click(sender As Object, e As EventArgs) Handles Button2.Click
 
-        If MsgBox("등록 하시겠습니까?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+        r = New FrmAdd
+        r.ShowDialog()
 
-            DataGridView1.DataSource = Nothing
-            DataGridView1.Refresh()
+        DataGridView1.DataSource = Nothing
+        DataGridView1.Refresh()
 
-            Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
-            dataSet = dbConn.AddData(txtName.Text, txtScore.Text)
-            DataGridView1.Refresh()
+        'dataSet = New DataSet("HR")
+
+        Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
+
+        dataSet = dbConn.LoadTable(dtpFrom, dtpTo, cboName)
+        If dataSet Is Nothing Then
             DataGridView1.DataSource = dataSet.Tables(0)
-
+            DataGridView1.Columns("idx").Visible = False
+            DataGridView1.Columns("name").HeaderText = "이름"
+            DataGridView1.Columns("score").HeaderText = "점수"
+            DataGridView1.Columns("sample_date").HeaderText = "등록 날짜"
+            DataGridView1.Columns("sample_date").Width = 180
         End If
 
-    End Sub
-
-    'Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-
-    '    Try
-    '        Dim cRow As DataRow
-    '        cRow = dataSet.Tables("Employee").Rows(cPos)
-
-    '        'Me.DataGridView1.Rows(cPos).Cells(1).Value = txtName.Text
-    '        'Me.DataGridView1.Rows(cPos).Cells(2).Value = txtScore.Text
-
-    '        cRow("name") = txtName.Text
-    '        cRow("score") = txtScore.Text
-
-    '        Dim iResult As Integer = sqlAdapt.Update(dataSet, "Employee")
-    '        MessageBox.Show(iResult.ToString() & "행을 수정했습니다.")
-
-    '    Catch ex As Exception
-    '        If dataSet.HasChanges Then
-    '            dataSet.RejectChanges()
-    '        End If
-    '    End Try
-
-    'End Sub
-
-
-    Private Sub txtIdx_TextChanged(sender As Object, e As EventArgs)
-
+        ComboSearch(cboName)
     End Sub
 
     Private Sub DataGridView1_CurrentCellChanged(sender As Object, e As EventArgs) Handles DataGridView1.CurrentCellChanged
 
         If Me.DataGridView1.CurrentCell IsNot Nothing Then
             cPos = Me.DataGridView1.CurrentCell.RowIndex
-            txtName.Text = Me.DataGridView1.Rows(cPos).Cells(1).Value.ToString()
-            txtScore.Text = Me.DataGridView1.Rows(cPos).Cells(2).Value.ToString()
         End If
 
     End Sub
@@ -160,47 +161,17 @@ Public Class FrmMain
 
         End If
 
+        ComboSearch(cboName)
 
 
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
 
-        Dim ds As New DataSet("HR")
-        Dim dbConn As MSDBConnector = New MSDBConnector("samplePrj", "59.23.195.70", "sa", "m2i_soft")
+        ed = New FrmEdit
+        ed.ShowDialog()
 
-        If MsgBox("수정 하시겠습니까?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-
-            Try
-                Using conn As SqlConnection = New SqlConnection(dbConn.GetDBConnectCommand())
-
-                    Dim cRow As DataRow
-
-                    conn.Open()
-
-                    Dim sqlAdapt = New SqlDataAdapter()
-
-                    sqlAdapt.SelectCommand = New SqlCommand("select * from dbo.sampleTable", conn)
-
-                    Dim cb As New SqlCommandBuilder(sqlAdapt)
-
-                    cRow = dataSet.Tables("Employee").Rows(cPos)
-                    cRow("name") = txtName.Text
-                    cRow("score") = txtScore.Text
-
-                    Dim iResult As Integer = sqlAdapt.Update(dataSet, "Employee")
-                    MessageBox.Show("수정되었습니다.")
-
-                End Using
-
-            Catch ex As Exception
-                If ds.HasChanges Then
-                    ds.RejectChanges()
-                End If
-            End Try
-
-        End If
-
+        ComboSearch(cboName)
     End Sub
 
     Public Sub ComboSearch(ByVal c As ComboBox)

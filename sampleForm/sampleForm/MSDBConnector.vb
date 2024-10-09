@@ -21,7 +21,7 @@ Public Class MSDBConnector : Implements IDBConnector
 
         Dim ds As New DataSet("HR")
         Dim sWhere As String = ""
-        Dim strQry As String = "select * from dbo.sampleTable where sample_date between '" & dateFrom.Text & "' and '" & dateTo.Text & "' "
+        Dim strQry As String = "select * from dbo.sampleTable where sample_date between '" & dateFrom.Text & " 00:00:00.000' and '" & dateTo.Text & " 23:59:59.997'"
 
         If cbotxt.Text = "선택하세요" Then
             MessageBox.Show("조건을 선택하세요.")
@@ -32,7 +32,7 @@ Public Class MSDBConnector : Implements IDBConnector
                 End If
 
                 strQry &= sWhere
-                MessageBox.Show(strQry)
+                'MessageBox.Show(strQry)
                 Using conn As SqlConnection = New SqlConnection(GetDBConnectCommand())
 
                     conn.Open()
